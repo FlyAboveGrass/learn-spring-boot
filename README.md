@@ -49,6 +49,7 @@
 
 ---
 
+
 ### application.yml 配置说明
 
 该文件用于集中管理项目的数据库和 MyBatis 配置，便于维护和环境切换。
@@ -79,5 +80,17 @@
 
 ---
 
-如需进一步了解每个模块的代码实现和具体用法，请参考对应的 Java 源文件和注释。
+### 接口响应统一包装与处理流程
 
+本项目对所有 API 接口的响应数据进行了统一包装，保证前后端交互格式一致，便于前端处理和异常捕获。
+
+- **全局响应处理**  
+  通过 `@RestControllerAdvice` + `ResponseBodyAdvice`（见 `GlobalResponseAdvice`），自动拦截所有 Controller 的返回值，统一包装为 `ApiResponse`。  
+  - 若返回值已是 `ApiResponse`，则直接返回  
+  - 若为普通对象或集合，自动包装为 `ApiResponse.success(data)`  
+  - 若为字符串，特殊处理避免二次序列化
+
+- **全局异常处理**  
+  通过 `@RestControllerAdvice` + `@ExceptionHandler`（见 `GlobalExceptionHandler`），捕获未处理的异常
+
+---
