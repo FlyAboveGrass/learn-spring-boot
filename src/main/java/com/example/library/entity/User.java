@@ -3,7 +3,7 @@
 // 用户实体类包
 package com.example.library.entity;
 
-// 导入 Lombok 注解，用于简化代码
+// 导入 Lombok 注解，自动生成 getter/setter,用于简化代码
 import lombok.Data;
 
 // 导入 java.sql.Timestamp，用于存储时间
