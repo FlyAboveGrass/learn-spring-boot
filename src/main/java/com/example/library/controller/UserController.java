@@ -1,8 +1,13 @@
 package com.example.library.controller;
 
+import com.example.library.dto.request.UserUpdateDTO;
 import com.example.library.entity.User;
 import com.example.library.service.UserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 // web.bind.annotation 用于处理 HTTP 的请求
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +40,9 @@ public class UserController {
 
   // 更新用户
   @PostMapping("/update")
-  public void update(@RequestBody User user) {
-    userService.update(user);
+  // 使用 @Valid 注解，用于验证请求体中的数据。配合 GlobalExceptionHandler 返回验证错误信息
+  public void update(@RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+    userService.update(userUpdateDTO);
   }
   
   // 删除用户

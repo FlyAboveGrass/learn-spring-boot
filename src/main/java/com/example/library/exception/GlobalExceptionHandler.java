@@ -1,5 +1,8 @@
 package com.example.library.exception;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,6 +20,16 @@ public class GlobalExceptionHandler {
   public ApiResponse<Void> handleException(Exception e) {
     log.error("全局异常", e);
     return ApiResponse.success(null, e.getMessage());
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ApiResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    BindingResult bindingResult = e.getBindingResult();
+    FieldError fieldError = bindingResult.getFieldErrors().get(0);
+
+    String errorMessage = fieldError.getDefaultMessage();
+
+    return ApiResponse.error(1, errorMessage);
   }
 
   // @ExceptionHandler(BusinessException.class) // 捕获业务异常

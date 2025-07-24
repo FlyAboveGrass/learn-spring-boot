@@ -1,5 +1,6 @@
 package com.example.library.service;
 
+import com.example.library.dto.request.UserUpdateDTO;
 import com.example.library.entity.User;
 import com.example.library.mapper.UserMapper;
 // 导入 Spring 的注解, 用于注入 UserMapper, 并自动装配
@@ -30,9 +31,14 @@ public class UserService {
   }
 
   // 更新用户
-  public void update(User user) {
-    // 可在此添加业务逻辑（如密码加密）
-    userMapper.update(user);
+  public void update(UserUpdateDTO userUpdateDTO) {
+    // userMapper.update(userUpdateDTO);
+    User user = userMapper.findById(userUpdateDTO.getUserId());
+    if (user == null) {
+      throw new RuntimeException("用户不存在");
+    }
+    
+    userMapper.update(userUpdateDTO);
   }
 
   // 删除用户

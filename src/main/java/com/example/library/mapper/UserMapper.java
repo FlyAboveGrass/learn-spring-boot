@@ -1,5 +1,6 @@
 package com.example.library.mapper;
 
+import com.example.library.dto.request.UserUpdateDTO;
 import com.example.library.entity.User;
 // 导入 MyBatis 注解。用于注解 Mapper 接口
 import org.apache.ibatis.annotations.*;
@@ -23,8 +24,8 @@ public interface UserMapper {
   void insert(User user);
 
   // 更新用户
-  @Update("UPDATE user SET name = #{name}, email = #{email}, password = #{password}, phone = #{phone}, role = #{role}, status = #{status} WHERE user_id = #{userId}")
-  void update(User user);
+  // 使用 mybatis 的 xml 文件更新方式
+  void update(UserUpdateDTO userUpdateDTO);
 
   // 删除用户
   @Delete("DELETE FROM user WHERE user_id = #{userId}")

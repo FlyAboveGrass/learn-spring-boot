@@ -18,7 +18,7 @@ public class User {
     private String email;
     private String password;
     private String phone;
-    private String role; // 如: "USER", "ADMIN"
+    private String role; // 如: "user", "admin"
     private String status; // 如: "ACTIVE", "INACTIVE"
     private Timestamp createdAt; // 注册时间
 }
