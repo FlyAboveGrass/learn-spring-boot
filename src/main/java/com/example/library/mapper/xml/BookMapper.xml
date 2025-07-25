@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须对应Mapper接口的全限定名 -->
+<mapper namespace="com.example.library.mapper.BookMapper">
+  <!-- 插入图书 -->
+  <insert id="insert" parameterType="com.example.library.dto.request.BookInsertDTO">
+    INSERT INTO book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      isbn,
+      title,
+      <if test="author != null">author,</if>
+      <if test="publisher != null">publisher,</if>
+      <if test="publishDate != null">publish_date,</if>
+      <if test="categoryId != null">category_id,</if>
+      total_copies,
+      available_copies,
+      status,
+      `location`,
+      `library_id`
+    </trim>
+    VALUES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      #{isbn},
+      #{title},
+      <if test="author != null">#{author},</if>
+      <if test="publisher != null">#{publisher},</if>
+      <if test="publishDate != null">#{publishDate},</if>
+      <if test="categoryId != null">#{categoryId},</if>
+      <if test="totalCopies != null">#{totalCopies},#{totalCopies},</if>
+      <if test="totalCopies == null">null,null,</if>
+      'AVAILABLE',
+      null,
+      null
+    </trim>
+  </insert>
+  <!-- 更新图书 -->
+  <update id="update" parameterType="com.example.library.dto.request.BookUpdateDTO">
+      UPDATE book
+      <set>
+        <if test="isbn != null">
+            isbn = #{isbn},
+        </if>
+        <if test="title != null">
+            title = #{title},
+        </if>
+        <if test="author != null">
+            author = #{author},
+        </if>
+        <if test="publisher != null">
+            publisher = #{publisher},
+        </if>
+        <if test="publishDate != null">
+            publish_date = #{publishDate},
+        </if>
+        <if test="categoryId != null">
+            category_id = #{categoryId},
+        </if>
+        <if test="totalCopies != null">
+            total_copies = #{totalCopies},
+        </if>
+        <if test="status != null">
+            status = #{status},
+        </if>
+        <if test="location != null">
+            location = #{location},
+        </if>
+        <if test="libraryId != null">
+            library_id = #{libraryId},
+        </if>
+      </set>
+      <if test="bookId != null">
+        WHERE book_id = #{bookId}
+      </if>
+      <if test="bookId == null">
+        WHERE isbn = #{isbn}
+      </if>
+  </update>
+</mapper>
