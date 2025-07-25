@@ -1,5 +1,7 @@
 package com.example.library.controller;
 
+import com.example.library.common.ApiResponse;
+import com.example.library.dto.request.UserInsertDTO;
 import com.example.library.dto.request.UserUpdateDTO;
 import com.example.library.entity.User;
 import com.example.library.service.UserService;
@@ -7,7 +9,6 @@ import com.example.library.service.UserService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 // web.bind.annotation 用于处理 HTTP 的请求
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +35,9 @@ public class UserController {
 
   // 插入新用户
   @PostMapping("/insert")
-  public void insert(@RequestBody User user) {
-    userService.insert(user);
+  public ApiResponse<Void> insert(@RequestBody @Valid UserInsertDTO userInsertDTO) {
+    userService.insert(userInsertDTO);
+    return ApiResponse.success(null, "用户创建成功");
   }
 
   // 更新用户

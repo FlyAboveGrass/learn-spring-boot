@@ -2,10 +2,10 @@ package com.example.library.common;
 import lombok.Data;
 
 // 导入 Jackson 注解，用于序列化/反序列化 JSON
-import com.fasterxml.jackson.annotation.JsonInclude;
+// import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL) // 如果数据为 null，则不返回该字段
+// @JsonInclude(JsonInclude.Include.NON_NULL) // 如果数据为 null，则不返回该字段
 public class ApiResponse<T> {
   private int code;
   private String msg;

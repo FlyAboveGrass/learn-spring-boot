@@ -1,5 +1,6 @@
 package com.example.library.service;
 
+import com.example.library.dto.request.UserInsertDTO;
 import com.example.library.dto.request.UserUpdateDTO;
 import com.example.library.entity.User;
 import com.example.library.mapper.UserMapper;
@@ -25,9 +26,9 @@ public class UserService {
   }
 
   // 插入新用户
-  public void insert(User user) {
+  public void insert(UserInsertDTO userInsertDTO) {
     // 可在此添加业务逻辑（如密码加密）
-    userMapper.insert(user);
+    userMapper.insert(userInsertDTO);
   }
 
   // 更新用户

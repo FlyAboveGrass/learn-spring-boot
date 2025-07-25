@@ -1,6 +1,9 @@
 package com.example.library.dto.request;
 
 import lombok.Data;
+
+import com.example.library.constants.UserRole;
+
 import jakarta.validation.constraints.*;
 
 @Data
@@ -20,6 +23,6 @@ public class UserUpdateDTO {
   @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
   private String phone;
 
-  @Pattern(regexp = "user|admin", message = "非法的角色类型")
-  private String role;
+  @NotNull(message = "角色不能为空")
+  private UserRole role;
 }

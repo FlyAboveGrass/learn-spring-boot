@@ -15,8 +15,8 @@
             <if test="phone != null">
                 phone = #{phone},
             </if>
-            <!-- 如果 role 为 user 或者 admin 则更新 -->
-            <if test="role == 'user' or role == 'admin'">
+            <!-- 如果 role 为 USER 或者 ADMIN 则更新 -->
+            <if test="role == 'USER' or role == 'ADMIN'">
                 role = #{role},
             </if>
         </set>

@@ -1,5 +1,6 @@
 package com.example.library.exception;
 
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.library.common.ApiResponse;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +24,7 @@ public class GlobalExceptionHandler {
     return ApiResponse.success(null, e.getMessage());
   }
 
+  // 处理参数校验异常
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ApiResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
     BindingResult bindingResult = e.getBindingResult();
@@ -31,6 +34,22 @@ public class GlobalExceptionHandler {
 
     return ApiResponse.error(1, errorMessage);
   }
+
+  // 处理 JSON 反序列化异常
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ApiResponse<Void> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    log.error("JSON 反序列化异常", e);
+    Throwable cause = e.getCause();
+    if (cause instanceof InvalidFormatException) {
+      InvalidFormatException invalidFormatException = (InvalidFormatException) cause;
+      if (invalidFormatException.getTargetType().isEnum()) {
+        return ApiResponse.error(1, "无效的枚举类型");
+      }
+    }
+
+    return ApiResponse.error(1, "请求参数格式错误");
+  }
+
 
   // @ExceptionHandler(BusinessException.class) // 捕获业务异常
   // public ApiResponse<Void> handleBusinessException(BusinessException e) {
