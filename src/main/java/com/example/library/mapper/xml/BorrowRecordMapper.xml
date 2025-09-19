@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须对应Mapper接口的全限定名 -->
+<mapper namespace="com.example.library.mapper.BorrowRecordMapper">
+  
+  <!-- 插入借阅记录 -->
+  <insert id="insert" parameterType="com.example.library.dto.request.BorrowBookDTO">
+    INSERT INTO borrow_record (
+      user_id,
+      book_id,
+      borrow_date,
+      due_date,
+      return_date,
+      renew_count,
+      fine_amount,
+      status
+    ) VALUES (
+      #{userId},
+      #{bookId},
+      #{borrowDate},
+      #{dueDate},
+      NULL,
+      0,
+      0.00,
+      'ACTIVE'
+    )
+  </insert>
+
+  <!-- 更新借阅记录（还书） -->
+  <update id="updateReturn" parameterType="com.example.library.dto.request.ReturnBookDTO">
+    UPDATE borrow_record 
+    SET 
+      return_date = #{returnDate},
+      fine_amount = #{fineAmount},
+      status = 'RETURNED'
+    WHERE borrow_id = #{borrowId}
+  </update>
+
+  <!-- 根据条件查询借阅记录 -->
+  <select id="findByCondition" parameterType="com.example.library.dto.request.BorrowRecordQueryDTO" 
+          resultMap="BorrowRecordResultMap">
+    SELECT * FROM borrow_record
+    <where>
+      <if test="userId != null">
+        AND user_id = #{userId}
+      </if>
+      <if test="bookId != null">
+        AND book_id = #{bookId}
+      </if>
+      <if test="status != null">
+        AND status = #{status}
+      </if>
+      <if test="borrowId != null">
+        AND borrow_id = #{borrowId}
+      </if>
+    </where>
+    ORDER BY borrow_date DESC
+  </select>
+
+  <!-- 结果映射，配置枚举类型处理器 -->
+  <resultMap id="BorrowRecordResultMap" type="com.example.library.entity.BorrowRecord">
+    <id property="borrowId" column="borrow_id"/>
+    <result property="userId" column="user_id"/>
+    <result property="bookId" column="book_id"/>
+    <result property="borrowDate" column="borrow_date"/>
+    <result property="dueDate" column="due_date"/>
+    <result property="returnDate" column="return_date"/>
+    <result property="renewCount" column="renew_count"/>
+    <result property="fineAmount" column="fine_amount"/>
+    <result property="status" column="status" />
+  </resultMap>
+
+</mapper>
