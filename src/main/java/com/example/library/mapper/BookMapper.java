@@ -36,4 +36,8 @@ public interface BookMapper {
 
   @Delete("DELETE FROM book WHERE isbn = #{isbn}")
   void deleteByIsbn(@Param("isbn") String isbn);
+
+  // 更新图书可用副本数
+  @Update("UPDATE book SET available_copies = available_copies + #{change} WHERE book_id = #{bookId}")
+  void updateAvailableCopies(@Param("bookId") Integer bookId, @Param("change") Integer change);
 }

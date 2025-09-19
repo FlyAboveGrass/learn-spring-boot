@@ -9,6 +9,7 @@ import lombok.Data;
 // 导入 java.sql.Timestamp，用于存储时间
 import java.sql.Timestamp;
 
+import com.example.library.constants.BookStatus;
 
 // 用户实体类
 // 字段名与数据库表 user 的列名自动驼峰映射​（如 user_id → userId）
@@ -23,7 +24,7 @@ public class Book {
     private Integer categoryId; // 分类ID
     private Integer totalCopies; // 总副本数
     private Integer availableCopies; // 可用副本数
-    private String status; // 状态。'AVAILABLE', 'BORROWED', 'MAINTENANCE', 'LOST'
+    private BookStatus status; // 状态。'AVAILABLE', 'BORROWED', 'MAINTENANCE', 'LOST'
     private String location; // 书架位置
     private Integer libraryId; // 所属图书馆
 }
