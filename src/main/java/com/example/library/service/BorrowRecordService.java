@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.library.dto.request.BorrowBookDTO;
 import com.example.library.dto.request.ReturnBookDTO;
 import com.example.library.dto.request.BorrowRecordQueryDTO;
+import com.example.library.dto.response.BorrowRecordVO;
 import com.example.library.entity.BorrowRecord;
 import com.example.library.entity.Book;
 import com.example.library.entity.User;
@@ -141,9 +142,9 @@ public class BorrowRecordService {
     }
 
     /**
-     * 根据条件查询借阅记录
+     * 根据条件查询借阅记录（包含用户和书籍信息）
      */
-    public List<BorrowRecord> findByCondition(BorrowRecordQueryDTO queryDTO) {
+    public List<BorrowRecordVO> findByCondition(BorrowRecordQueryDTO queryDTO) {
         return borrowRecordMapper.findByCondition(queryDTO);
     }
 }

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import com.example.library.dto.request.BorrowBookDTO;
 import com.example.library.dto.request.ReturnBookDTO;
 import com.example.library.dto.request.BorrowRecordQueryDTO;
+import com.example.library.dto.response.BorrowRecordVO;
 import com.example.library.entity.BorrowRecord;
 
 
@@ -41,7 +42,7 @@ public interface BorrowRecordMapper {
     void updateReturn(ReturnBookDTO returnBookDTO);
 
     /**
-     * 根据条件查询借阅记录
+     * 根据条件查询借阅记录（包含用户和书籍信息）
      */
-    List<BorrowRecord> findByCondition(BorrowRecordQueryDTO queryDTO);
+    List<BorrowRecordVO> findByCondition(BorrowRecordQueryDTO queryDTO);
 }

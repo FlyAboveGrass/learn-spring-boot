@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.library.dto.request.BorrowBookDTO;
 import com.example.library.dto.request.ReturnBookDTO;
 import com.example.library.dto.request.BorrowRecordQueryDTO;
+import com.example.library.dto.response.BorrowRecordVO;
 import com.example.library.entity.BorrowRecord;
 import com.example.library.service.BorrowRecordService;
 
@@ -40,10 +41,10 @@ public class BorrowRecordController {
     }
 
     /**
-     * 根据条件查询借阅记录（支持userId、bookId、status、borrowId查询）
+     * 根据条件查询借阅记录（支持userId、bookId、status、borrowId查询，包含用户和书籍信息）
      */
     @PostMapping("/search")
-    public List<BorrowRecord> findByCondition(@RequestBody BorrowRecordQueryDTO queryDTO) {
+    public List<BorrowRecordVO> findByCondition(@RequestBody BorrowRecordQueryDTO queryDTO) {
         return borrowRecordService.findByCondition(queryDTO);
     }
 }

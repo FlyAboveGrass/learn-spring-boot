@@ -39,36 +39,58 @@
 
   <!-- 根据条件查询借阅记录 -->
   <select id="findByCondition" parameterType="com.example.library.dto.request.BorrowRecordQueryDTO" 
-          resultMap="BorrowRecordResultMap">
-    SELECT * FROM borrow_record
+          resultMap="BorrowRecordVOResultMap">
+    SELECT 
+      br.borrow_id,
+      br.user_id,
+      br.book_id,
+      br.borrow_date,
+      br.due_date,
+      br.return_date,
+      br.renew_count,
+      br.fine_amount,
+      br.status,
+      u.name as user_name,
+      b.title as book_title
+    FROM borrow_record br
+    LEFT JOIN user u ON br.user_id = u.user_id
+    LEFT JOIN book b ON br.book_id = b.book_id
     <where>
       <if test="userId != null">
-        AND user_id = #{userId}
+        AND br.user_id = #{userId}
       </if>
       <if test="bookId != null">
-        AND book_id = #{bookId}
+        AND br.book_id = #{bookId}
       </if>
       <if test="status != null">
-        AND status = #{status}
+        AND br.status = #{status}
       </if>
       <if test="borrowId != null">
-        AND borrow_id = #{borrowId}
+        AND br.borrow_id = #{borrowId}
       </if>
     </where>
-    ORDER BY borrow_date DESC
+    ORDER BY br.borrow_date DESC
   </select>
 
-  <!-- 结果映射，配置枚举类型处理器 -->
-  <resultMap id="BorrowRecordResultMap" type="com.example.library.entity.BorrowRecord">
+  <!-- VO结果映射，包含关联信息 -->
+  <resultMap id="BorrowRecordVOResultMap" type="com.example.library.dto.response.BorrowRecordVO">
     <id property="borrowId" column="borrow_id"/>
-    <result property="userId" column="user_id"/>
-    <result property="bookId" column="book_id"/>
     <result property="borrowDate" column="borrow_date"/>
     <result property="dueDate" column="due_date"/>
     <result property="returnDate" column="return_date"/>
     <result property="renewCount" column="renew_count"/>
     <result property="fineAmount" column="fine_amount"/>
     <result property="status" column="status" />
+    <!-- 用户信息对象 -->
+    <association property="userInfo" javaType="com.example.library.dto.response.BorrowRecordVO$UserInfo">
+      <result property="userId" column="user_id"/>
+      <result property="userName" column="user_name"/>
+    </association>
+    <!-- 书籍信息对象 -->
+    <association property="bookInfo" javaType="com.example.library.dto.response.BorrowRecordVO$BookInfo">
+      <result property="bookId" column="book_id"/>
+      <result property="bookTitle" column="book_title"/>
+    </association>
   </resultMap>
 
 </mapper>
