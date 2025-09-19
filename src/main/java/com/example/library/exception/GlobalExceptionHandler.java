@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class) // 捕获所有异常
   public ApiResponse<Void> handleException(Exception e) {
     log.error("全局异常", e);
-    return ApiResponse.success(null, e.getMessage());
+    return ApiResponse.error(-1, e.getMessage());
   }
 
   // 处理参数校验异常
